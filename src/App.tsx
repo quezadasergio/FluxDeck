@@ -178,6 +178,7 @@ export default function App() {
             viewsSuspended={modalOpen}
             onMove={async (index, delta) => setState(await api.moveColumn(index, delta))}
             onClose={async (index) => setState(await api.removeColumn(index))}
+            onReload={(index) => void api.reloadColumn(index)}
           />
         )}
 

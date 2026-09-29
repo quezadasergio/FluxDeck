@@ -41,21 +41,28 @@ npm run dist:mac
 
 # Windows → .exe (best on a Windows PC)
 npm run dist:win
+
+# Linux → .AppImage (best on Linux)
+npm run dist:linux
 ```
 
 Installers land in `release/`.
 
-### With GitHub Actions (Mac + Windows)
+### With GitHub Actions (Mac + Windows + Linux)
 
 1. Push the code to your GitHub repo.
 2. Open the **Actions** tab → **Build installers** workflow → **Run workflow**  
    (or create a tag: `git tag v1.0.0 && git push origin v1.0.0`).
-3. When it finishes, download the `FluxDeck-mac` and `FluxDeck-windows` artifacts.
-4. If you used a `v*` tag, a **Release** is also created with the `.dmg` and `.exe`.
+3. When it finishes, download the `FluxDeck-mac`, `FluxDeck-windows`, and `FluxDeck-linux` artifacts.
+4. If you used a `v*` tag, a **Release** is also created with the `.dmg`, `.exe`, and `.AppImage`.
 
 Notes:
-- The Mac CI build is **unsigned** (Gatekeeper may warn). Signing/notarization would need certificates in secrets.
+- The Mac CI build is **ad-hoc signed** (no Apple Developer certificate). Gatekeeper may say Apple could not verify the developer — open **System Settings → Privacy & Security → Open Anyway**, or right-click the app → **Open**. Do **not** use `CSC_IDENTITY_AUTO_DISCOVERY=false`; that skips signing and macOS reports the app as *damaged*.
+- CI produces both `arm64` (Apple Silicon) and `x64` (Intel) `.dmg` files — pick the one that matches your Mac.
+- Full Apple signing/notarization would need certificates in secrets.
 - The Windows CI build is also unsigned (SmartScreen may warn).
+- If an older Mac build still says *damaged*, clear quarantine once: `xattr -cr /Applications/FluxDeck.app`
+- Linux ships as an `x64` **AppImage**: `chmod +x FluxDeck-*.AppImage && ./FluxDeck-*.AppImage`
 
 ## Architecture (brief)
 
