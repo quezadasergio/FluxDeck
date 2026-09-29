@@ -181,6 +181,12 @@ function registerIpc(): void {
     columns.reloadAll()
   })
 
+  ipcMain.handle('columns:reload', (_e, index: number) => {
+    if (typeof index === 'number' && Number.isInteger(index) && index >= 0) {
+      columns.reloadOne(index)
+    }
+  })
+
   ipcMain.handle('shell:openExternal', async (_e, url: string) => {
     if (typeof url === 'string' && /^https?:\/\//i.test(url)) {
       await shell.openExternal(url)

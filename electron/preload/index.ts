@@ -21,6 +21,7 @@ const api = {
   hideColumns: (): Promise<void> => ipcRenderer.invoke('columns:hide'),
   rebuildColumns: (): Promise<void> => ipcRenderer.invoke('columns:rebuild'),
   reloadAllColumns: (): Promise<void> => ipcRenderer.invoke('columns:reloadAll'),
+  reloadColumn: (index: number): Promise<void> => ipcRenderer.invoke('columns:reload', index),
   openExternal: (url: string): Promise<void> => ipcRenderer.invoke('shell:openExternal', url),
   onColumnWheel: (cb: (deltaX: number) => void): (() => void) => {
     const listener = (_: Electron.IpcRendererEvent, deltaX: number): void => cb(deltaX)

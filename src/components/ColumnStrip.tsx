@@ -12,6 +12,7 @@ interface Props {
   viewsSuspended?: boolean
   onMove: (index: number, delta: number) => void | Promise<void>
   onClose: (index: number) => void | Promise<void>
+  onReload: (index: number) => void | Promise<void>
 }
 
 export function ColumnStrip({
@@ -20,7 +21,8 @@ export function ColumnStrip({
   columnWidth,
   viewsSuspended = false,
   onMove,
-  onClose
+  onClose,
+  onReload
 }: Props) {
   const stripRef = useRef<HTMLDivElement>(null)
   const bodyRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -101,6 +103,17 @@ export function ColumnStrip({
             <span className="column-title">{COLUMN_TYPE_LABELS[column.type]}</span>
             <span className="column-subtitle">@{username(column.sessionId)}</span>
             <div className="column-header-spacer" />
+            <button
+              className="btn icon ghost"
+              type="button"
+              title="Actualizar columna"
+              aria-label="Actualizar columna"
+              onClick={() => void onReload(index)}
+            >
+              <span className="icon-refresh" aria-hidden="true">
+                ↻
+              </span>
+            </button>
             <button
               className="btn icon ghost"
               type="button"

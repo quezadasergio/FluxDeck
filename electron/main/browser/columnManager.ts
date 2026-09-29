@@ -42,17 +42,22 @@ export class ColumnManager {
     }
   }
 
+  /** Soft-reload a single column WebContents without destroying its session. */
+  reloadOne(index: number): void {
+    const view = this.views.get(index)
+    if (!view) return
+    try {
+      if (!view.webContents.isDestroyed()) {
+        view.webContents.reload()
+      }
+    } catch {
+      // ignore
+    }
+  }
+
   /** Soft-reload every column WebContents without destroying sessions. */
   reloadAll(): void {
-    Array.from(this.views.values()).forEach((view) => {
-      try {
-        if (!view.webContents.isDestroyed()) {
-          view.webContents.reload()
-        }
-      } catch {
-        // ignore
-      }
-    })
+    Array.from(this.views.keys()).forEach((index) => this.reloadOne(index))
   }
 
   syncLayout(slots: ColumnLayoutSlot[]): void {
