@@ -1,24 +1,26 @@
-# Compiled class file
-*.class
-
-# Log file
+# Dependencies
+node_modules/
+out/
+release/
+dist/
 *.log
+debug.log
+*.tsbuildinfo
 
-# BlueJ files
-*.ctxt
+# Electron
+.electron-vite/
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+# OS
+.DS_Store
+Thumbs.db
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# virtual machine crash logs
 hs_err_pid*
 replay_pid*
