@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, shell, webContents } from 'electron'
+import { app, BrowserWindow, ipcMain, session, shell, webContents } from 'electron'
 import { join } from 'path'
 import type { ColumnConfig, ColumnLayoutSlot, Rect } from '../../shared/types'
 import { APP_AUTHOR, APP_AUTHOR_URL, APP_NAME, APP_VERSION } from '../../shared/version'
@@ -6,6 +6,10 @@ import { ColumnManager } from './browser/columnManager'
 import { LoginManager } from './browser/loginManager'
 import { SessionStore } from './config/store'
 import { exportCookiesBackup } from './session/partitions'
+import { applyBrowserIdentity, browserUserAgent } from './session/browserIdentity'
+import { explorePost, savePostMedia, type PostMediaItem } from './media/postLink'
+
+app.userAgentFallback = browserUserAgent()
 
 let mainWindow: BrowserWindow | null = null
 let splashWindow: BrowserWindow | null = null
@@ -187,6 +191,18 @@ function registerIpc(): void {
     }
   })
 
+  ipcMain.handle('post:explore', (_e, link: string) => {
+    if (typeof link !== 'string') throw new Error('Pega un link de un post de x.com')
+    return explorePost(link)
+  })
+
+  ipcMain.handle('post:save', (_e, item: PostMediaItem) => {
+    if (!item || (item.kind !== 'image' && item.kind !== 'video') || typeof item.url !== 'string') {
+      throw new Error('No se puede guardar ese archivo')
+    }
+    return savePostMedia(item)
+  })
+
   ipcMain.handle('shell:openExternal', async (_e, url: string) => {
     if (typeof url === 'string' && /^https?:\/\//i.test(url)) {
       await shell.openExternal(url)
@@ -268,6 +284,7 @@ function registerIpc(): void {
 }
 
 app.whenReady().then(() => {
+  applyBrowserIdentity(session.defaultSession)
   if (process.platform === 'darwin' && app.dock) {
     try {
       app.dock.setIcon(appIconPath())

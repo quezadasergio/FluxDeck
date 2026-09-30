@@ -14,4 +14,10 @@ export interface AppState {
   hasLoggedIn: boolean
 }
 
+export interface PostMediaItem {
+  kind: 'image' | 'video'
+  url: string
+  label: string
+}
+
 export type { ColumnConfig, SessionRecord }

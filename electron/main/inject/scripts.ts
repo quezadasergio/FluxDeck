@@ -79,9 +79,10 @@ const HIDE_ADS = `
   if (window.__fluxHideAds) return;
   window.__fluxHideAds = true;
   const style = document.createElement('style');
-  // CSS-only: JS display:none on MutationObserver was jumping the feed scroll
-  // position when new posts/ads mounted below the viewport.
-  style.textContent = 'div[data-testid="cellInnerDiv"]:has([data-testid="placementTracking"]) { display: none !important; height: 0 !important; margin: 0 !important; padding: 0 !important; overflow: hidden !important; }';
+  // Only promoted tweets wrap the article in placementTracking.
+  // Video and GIF players also use that test id inside the article; hiding
+  // every cell that contains it makes those posts flash and disappear.
+  style.textContent = 'div[data-testid="cellInnerDiv"]:has([data-testid="placementTracking"] article) { display: none !important; height: 0 !important; margin: 0 !important; padding: 0 !important; overflow: hidden !important; }';
   document.documentElement.appendChild(style);
 })();
 `

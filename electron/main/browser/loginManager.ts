@@ -4,6 +4,7 @@ import type { Rect } from '../../../shared/types'
 import type { SessionStore } from '../config/store'
 import { detectUserNameOnce, loginOnLoad } from '../inject/scripts'
 import { exportCookiesBackup, getPartition, importJavaCookiesIfNeeded } from '../session/partitions'
+import { installPageIdentity } from '../session/browserIdentity'
 import { attachContextMenu } from './contextMenu'
 
 function guestPreload(): string {
@@ -117,6 +118,7 @@ export class LoginManager {
     view.webContents.on('did-navigate-in-page', inject)
     view.webContents.setWindowOpenHandler(() => ({ action: 'allow' }))
     attachContextMenu(view.webContents)
+    installPageIdentity(view.webContents)
     await view.webContents.loadURL('https://x.com/i/flow/login')
 
     let ticks = 0

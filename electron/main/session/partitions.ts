@@ -1,6 +1,7 @@
 import { session as electronSession, type Cookie } from 'electron'
 import { partitionName } from '../../../shared/types'
 import type { SessionStore } from '../config/store'
+import { applyBrowserIdentity } from './browserIdentity'
 
 interface LegacyCookie {
   name?: string
@@ -16,7 +17,9 @@ interface LegacyCookie {
 }
 
 export function getPartition(sessionId: string) {
-  return electronSession.fromPartition(partitionName(sessionId))
+  const ses = electronSession.fromPartition(partitionName(sessionId))
+  applyBrowserIdentity(ses)
+  return ses
 }
 
 /** Import cookies.json from the Java client into an empty Electron partition. */

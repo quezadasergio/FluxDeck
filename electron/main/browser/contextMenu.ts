@@ -182,8 +182,6 @@ export function attachContextMenu(webContents: WebContents): void {
 
     if (items.length === 0) return
 
-    Menu.buildFromTemplate(items).popup({
-      // Anchor near the click for image copy coordinates consistency
-    })
+    Menu.buildFromTemplate(items).popup()
   })
 }
