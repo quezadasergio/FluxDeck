@@ -4,6 +4,7 @@ import type { ColumnConfig, Rect } from '@shared/types'
 import { AboutModal } from './components/AboutModal'
 import { AddColumnModal } from './components/AddColumnModal'
 import { ColumnStrip } from './components/ColumnStrip'
+import { DownloadPostButton } from './components/DownloadPostButton'
 
 const api = window.fluxdeckApi
 
@@ -23,6 +24,7 @@ export default function App() {
   const [showAddColumn, setShowAddColumn] = useState(false)
   const [showAddAccount, setShowAddAccount] = useState(false)
   const [showAbout, setShowAbout] = useState(false)
+  const [showDownload, setShowDownload] = useState(false)
   const loginSlotRef = useRef<HTMLDivElement>(null)
   const addAccountSlotRef = useRef<HTMLDivElement>(null)
   const firstLoginStarted = useRef(false)
@@ -112,7 +114,7 @@ export default function App() {
   }
 
   const loggedIn = state.hasLoggedIn
-  const modalOpen = showAddColumn || showAddAccount || showAbout
+  const modalOpen = showAddColumn || showAddAccount || showAbout || showDownload
 
   return (
     <div className="app">
@@ -130,6 +132,7 @@ export default function App() {
             >
               <span className="icon-btn-label">i</span>
             </button>
+            <DownloadPostButton onOpenChange={setShowDownload} />
             <button
               className="icon-btn"
               type="button"

@@ -90,6 +90,83 @@ button {
   transform: translateY(-1px);
 }
 
+.download-anchor {
+  position: relative;
+}
+
+.download-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 8;
+  width: min(520px, 92vw);
+  background: #15202b;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+}
+
+.download-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+}
+
+.download-help,
+.download-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.download-help {
+  padding-right: 36px;
+}
+
+.download-label {
+  flex-shrink: 0;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.download-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.download-row input {
+  flex: 1;
+  min-width: 0;
+  background: var(--chip);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font: inherit;
+}
+
+.download-files {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.download-error {
+  margin: 0;
+  color: #f4212e;
+  font-size: 13px;
+}
+
 .about-modal {
   width: min(360px, 92vw);
   align-items: center;

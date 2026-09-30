@@ -5,6 +5,7 @@ import { columnUrl } from '../../../shared/types'
 import type { SessionStore } from '../config/store'
 import { columnOnLoad } from '../inject/scripts'
 import { exportCookiesBackup, getPartition, importJavaCookiesIfNeeded } from '../session/partitions'
+import { installPageIdentity } from '../session/browserIdentity'
 import { attachContextMenu } from './contextMenu'
 
 function guestPreload(): string {
@@ -159,6 +160,7 @@ export class ColumnManager {
     })
     view.webContents.setWindowOpenHandler(() => ({ action: 'deny' }))
     attachContextMenu(view.webContents)
+    installPageIdentity(view.webContents)
     view.webContents.loadURL(url)
     return view
   }

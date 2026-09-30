@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import type { AppInfo, AppState } from '../../shared/api'
+import type { AppInfo, AppState, PostMediaItem } from '../../shared/api'
 import type { ColumnConfig, ColumnLayoutSlot, Rect } from '../../shared/types'
 
 const api = {
@@ -22,6 +22,8 @@ const api = {
   rebuildColumns: (): Promise<void> => ipcRenderer.invoke('columns:rebuild'),
   reloadAllColumns: (): Promise<void> => ipcRenderer.invoke('columns:reloadAll'),
   reloadColumn: (index: number): Promise<void> => ipcRenderer.invoke('columns:reload', index),
+  explorePost: (link: string): Promise<PostMediaItem[]> => ipcRenderer.invoke('post:explore', link),
+  savePostMedia: (item: PostMediaItem): Promise<boolean> => ipcRenderer.invoke('post:save', item),
   openExternal: (url: string): Promise<void> => ipcRenderer.invoke('shell:openExternal', url),
   onColumnWheel: (cb: (deltaX: number) => void): (() => void) => {
     const listener = (_: Electron.IpcRendererEvent, deltaX: number): void => cb(deltaX)
